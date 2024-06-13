@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  </head>
+
+  <body>
+    <h3>WebSocket Go</h3>
+    <h4> Send Message</h4>
+    <input name="message" id="message" value=""/>
+    <button name="send_message" id="send_message" onclick=sendData()>Send</button>
+    <pre id="output"></pre>
+
+    <script>
+      url = 'ws://localhost:9000/ws';
+      c = new WebSocket(url);
+
+      sendData = function() {
+        let msg = $("#message").val()
+        send(msg)
+      }
+      
+      send = function(data){
+        $("#output").append((new Date())+ " ==> "+data+"\n")
+        c.send(data)
+      }
+
+      c.onmessage = function(msg){
+        $("#output").append((new Date())+ " <== "+msg.data+"\n")
+        console.log(msg)
+      }
+
+      // c.onopen = function(){
+      //   setInterval( 
+      //     function(){ send("ping") }
+      //   , 1000 )
+      // }
+    </script>
+
+  </body>
+</html>
